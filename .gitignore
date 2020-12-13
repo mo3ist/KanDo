@@ -1,3 +1,8 @@
 .vscode/
 backend/venv
+backend/KanDo/db.sqlite3
+backend/KanDo/KanDo/__pycache__/
+backend/KanDo/todo/__pycache__/
+backend/KanDo/todo/migrations/__pycache__/
 frontend/kando-front/node_modules/
+frontend/kando-front/.eslintcache
