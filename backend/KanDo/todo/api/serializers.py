@@ -4,13 +4,13 @@ from todo import models
 class KanbanSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Kanban
-        fields = ("name",)
+        fields = ("id", "name")
 
 class TodoSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Todo
         fields = ("id", "name", "kanban")
-
+        
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
