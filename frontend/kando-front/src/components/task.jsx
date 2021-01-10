@@ -1,7 +1,19 @@
-import { Container, Button, MenuItem, Select, Typography, TextField, Grid } from "@material-ui/core"
+import { Container, Button, MenuItem, Select, Typography, TextField, Grid, withStyles } from "@material-ui/core"
 import React from "react"
 import { connect } from "react-redux"
 import { deleteTask, updateTask } from "../store/api"
+import DeleteIcon from '@material-ui/icons/Delete';
+
+
+const styles = (theme) => ({
+    container: {
+        border: "1px solid black",
+        borderRadius: "10px",
+        marginBottom: "10px",
+        padding: "10px",
+        backgroundColor: "#fff"
+    }
+})
 
 class Task extends React.Component{
     constructor(props){
@@ -62,12 +74,27 @@ class Task extends React.Component{
     }
 
     render(){
+        const classes = this.props.classes
         return(
-            <Container>
+            <Container className={classes.container}>
                 <Grid container spacing={3}>
-                    <Grid item xs={7}>
+                    <Grid item xs={5}
+                    >
                         {!this.state.editableTaskName ? 
-                            <Typography display="inline" onClick={() => this.setState({...this.state, editableTaskName: true})}>{this.props.name}</Typography>
+                            <div
+                                style={{
+                                    whiteSpace: "pre-wrap", 
+                                    overflowX: "scroll",
+                                    "scrollbar-width": "thin"
+                                }}
+                            >
+                                <Typography 
+                                    display="inline" 
+                                    onClick={() => this.setState({...this.state, editableTaskName: true})}
+                                    
+                                    >{this.props.name}
+                                </Typography>
+                            </div>
                             :
                             <form onSubmit={this.handleNameSubmit}>
                                 <TextField
@@ -96,15 +123,14 @@ class Task extends React.Component{
                             })}
                         </Select>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={4}>
                         <Button
                             fullWidth
                             variant="outlined"
                             color="secondary"
-                            size="small"
                             onClick={this.handleDelete}
                         >
-                            Delete
+                            <DeleteIcon />
                         </Button>
                     </Grid>
                 </Grid>
@@ -125,4 +151,6 @@ const mapDispatchToProps = dispatch => ({
     updateTask: (prevTask, task) => {dispatch(updateTask(prevTask, task))}
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Task)
+export default connect(mapStateToProps, mapDispatchToProps)(
+    withStyles(styles)(Task)
+)

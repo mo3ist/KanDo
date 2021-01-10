@@ -19,11 +19,9 @@ export const apiMiddleware = store => next => action => {
         .then(res => {
 
             store.dispatch({type: API_CALL_SUCCEEDED})
-            console.log(res.data)
             store.dispatch({type: onSuccess, payload: res.data})
         })
         .catch(error => {
-            console.log(error)
             store.dispatch({type: API_CALL_FAILED})
         })
         next(action)

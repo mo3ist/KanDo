@@ -3,6 +3,8 @@ import React from "react"
 import { connect } from "react-redux" 
 import { createTask, deleteKanban, loadTasks, updateKanban } from "../store/api"
 import Task from "./task"
+import DeleteIcon from '@material-ui/icons/Delete';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 class Kanban extends React.Component{
     constructor(props){
@@ -26,7 +28,8 @@ class Kanban extends React.Component{
         this.props.loadTasks(this.props.id)
     }
 
-    handleSubmit(){
+    handleSubmit(e){
+        e.preventDefault()
         if (this.state.newTaskName) {
             this.props.createTask(this.state.newTaskName, this.props.id)
             this.setState({...this.state, newTaskName: ""})
@@ -47,8 +50,8 @@ class Kanban extends React.Component{
     }
 
     handleNameSubmit(e){
-        this.setState({...this.state, editableTaskName: false})
         if (e.key === "Enter" && this.state.kanban.name !== this.props.name){
+            this.setState({...this.state, editableTaskName: false})
             this.props.updateKanban({
                 id: this.props.id,
                 name: this.props.name,
@@ -63,10 +66,21 @@ class Kanban extends React.Component{
     render() {
         if (this.props.tasks[this.props.id]){
             return (
-                <Container>
-                    <Box mb={3}>
-                        <Grid container spacing={3}>
-                            <Grid item xs={10}>
+                <Container
+                    style={{height: "100%", overflowY: "scroll", "scrollbar-width": "thin"}}
+                >
+                    <Box mb={3}
+
+                    >
+                        <Grid container spacing={3}
+                            style={{
+                                borderBottom: "2px solid black",
+                                borderRadius: "10px"
+                            }}
+                        >
+                            <Grid item xs={8}
+                                
+                            >
                                 {!this.state.editableTaskName ? 
                                 <Typography variant="h4" display="inline" onClick={() => this.setState({...this.state, editableTaskName: true})}>{this.props.name}</Typography>
                                 :
@@ -79,7 +93,7 @@ class Kanban extends React.Component{
                                 />
                                 }
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={4}>
                                 <Button
                                     size="small"
                                     fullWidth
@@ -87,7 +101,7 @@ class Kanban extends React.Component{
                                     color="secondary"
                                     onClick={this.handleDelete}
                                 >
-                                    Delete
+                                    <DeleteIcon />
                                 </Button>
                             </Grid>
                         </Grid> 
@@ -113,7 +127,7 @@ class Kanban extends React.Component{
                             fullWidth
                             onClick={this.handleSubmit}
                         >
-                            Create
+                            <AddCircleOutlineIcon />
                         </Button>
                     </form>
 

@@ -5,9 +5,18 @@ import Typography from "@material-ui/core/Typography"
 import TextField from "@material-ui/core/TextField"
 import Box from "@material-ui/core/Box"
 import {connect} from "react-redux"
-import { ButtonGroup } from "@material-ui/core";
+import { ButtonGroup, withStyles } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 import { createKanban } from "../store/api";
+
+const styles = () => ({
+    container: {
+        border: "3px solid black",
+        borderTop: "0px",
+        borderRadius: "0px 0px 10px 10px",
+        padding: "20px"
+    }
+})
 
 class KanbanCreator extends React.Component {
     constructor(props){
@@ -31,8 +40,9 @@ class KanbanCreator extends React.Component {
     }
 
     render(){
+        const classes = this.props.classes
         return (
-            <Container >
+            <Container className={classes.container}>
                 {this.state.exit && <Redirect to="/dashboard" />}
                 <Box>
                     <Typography>Create Kanban</Typography>
@@ -79,4 +89,6 @@ const mapDispatchToProps = dispatch => ({
     createKanban: (name) => {dispatch(createKanban(name))}
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(KanbanCreator)
+export default connect(mapStateToProps, mapDispatchToProps)(
+    withStyles(styles)(KanbanCreator)
+)
